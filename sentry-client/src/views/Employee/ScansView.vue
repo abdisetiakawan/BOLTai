@@ -189,18 +189,18 @@
                         </td>
                         <td class="py-2 px-4">
                           <Button
-                            v-if="!scan.isOut && scan.stocked_by === user?.id"
+                            v-if="!scan.isOut"
                             size="sm"
                             variant="outline"
-                            @click="markAsOut(scan)"
-                            :disabled="loadingOut === scan.id"
+                            @click="markAsOut(scan.item_code)"
+                            :disabled="loadingOut === scan.item_code"
                           >
-                            <Loader2 v-if="loadingOut === scan.id" class="w-3 h-3 mr-1 animate-spin" />
+                            <Loader2 v-if="loadingOut === scan.item_code" class="w-3 h-3 mr-1 animate-spin" />
                             <ArrowUp v-else class="w-3 h-3 mr-1" />
                             Mark Out
                           </Button>
                           <span v-else class="text-xs text-muted-foreground">
-                            {{ scan.isOut ? 'Completed' : 'Not yours' }}
+                            Completed
                           </span>
                         </td>
                       </tr>
@@ -368,13 +368,13 @@ async function handleScan() {
   }
 }
 
-async function markAsOut(scan: any) {
-  loadingOut.value = scan.id
+async function markAsOut(itemCode: string) {
+  loadingOut.value = itemCode
   error.value = ''
   success.value = ''
 
   try {
-    await updateScan(scan.id)
+    await updateScan(itemCode)
     success.value = 'Item marked as out successfully!'
     await fetchScans()
   } catch (e: any) {

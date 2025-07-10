@@ -10,8 +10,3 @@ export const addScanSchema = z.object({
     isOut: z.boolean().optional(),
 });
 
-export const updateScanSchema = z.object({});
-
-export const scanIdSchema = z.object({
-    scan_id : objectIdSchema
-});

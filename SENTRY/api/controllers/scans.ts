@@ -29,9 +29,9 @@ export const getScans = async (req: AuthenticatedRequest, res: Response, next: N
 
 export const updateScan = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<Response | void> => {
     try {
-        const { scan_id } = validate(scanIdSchema, req.params);
+        const { code_item } = validate(addScanSchema, req.body);
         const user_id = req.user.id;
-        const result = await updateScanService(scan_id, user_id);
+        const result = await createScanService(user_id, code_item, true); // isOut = true
         return sendSuccess(res, 200, "Scan out item successfully", result);
     } catch (error) {
         next(error);
