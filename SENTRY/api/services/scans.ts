@@ -108,7 +108,7 @@ export async function getScanHistory(page: number, limit: number): Promise<{ sca
     const skip = (page - 1) * limit;
     
     const scans = await Scan.find()
-        .populate('id_item', 'item_code name')
+        .populate('id_item', 'item_code name category weight')
         .populate('stocked_by', 'name')
         .populate('taken_by', 'name')
         .sort({ stocked_at: -1 })
@@ -119,12 +119,12 @@ export async function getScanHistory(page: number, limit: number): Promise<{ sca
     
     const formattedScans = scans.map(scan => ({
         id: scan._id.toString(),
-        item_code: (scan.id_item as any)?.item_code,
-        item_name: (scan.id_item as any)?.name,
+        item_code: (scan.id_item as any)?.item_code || 'Unknown',
+        item_name: (scan.id_item as any)?.name || 'Unknown Item',
         stocked_by: scan.stocked_by,
-        stocked_by_name: (scan.stocked_by as any)?.name,
+        stocked_by_name: (scan.stocked_by as any)?.name || 'Unknown User',
         taken_by: scan.taken_by,
-        taken_by_name: (scan.taken_by as any)?.name,
+        taken_by_name: (scan.taken_by as any)?.name || null,
         stocked_at: scan.stocked_at,
         taken_at: scan.taken_at,
         isOut: scan.isOut,

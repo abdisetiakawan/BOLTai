@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { createScan, updateScan } from '../controllers/scans';
+import { createScan, updateScan, getScans } from '../controllers/scans';
 import { authenticate } from '../middleware/authenticate';
 import { authorize } from '../middleware/authorize';
 import { UserRoles } from '../models/users';

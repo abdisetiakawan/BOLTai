@@ -16,7 +16,7 @@ const scanSchema = new Schema<iScan>({
     stocked_at: { type: Date, default: Date.now, required: true },
     taken_by: { type: Schema.Types.ObjectId, ref: 'Users' },
     taken_at: { type: Date },
-    id_item: { type: Schema.Types.ObjectId, ref: 'Item', required: true },
+    id_item: { type: Schema.Types.ObjectId, ref: 'Items', required: true },
     isOut: { type: Boolean, default: false, required: true },
 }, {
     timestamps: { createdAt: 'in_time', updatedAt: 'out_time' }

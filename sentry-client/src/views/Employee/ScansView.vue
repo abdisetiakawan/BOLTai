@@ -171,13 +171,13 @@
                         class="border-b hover:bg-muted/70 transition"
                       >
                         <td class="py-2 px-4">{{ (page - 1) * limit + idx + 1 }}</td>
-                        <td class="py-2 px-4 font-mono">{{ scan.item_code || 'N/A' }}</td>
+                        <td class="py-2 px-4 font-mono">{{ scan.item_code }}</td>
                         <td class="py-2 px-4">
                           <Badge :variant="scan.isOut ? 'destructive' : 'default'">
                             {{ scan.isOut ? 'Out' : 'In' }}
                           </Badge>
                         </td>
-                        <td class="py-2 px-4">{{ scan.stocked_by_name || 'Unknown' }}</td>
+                        <td class="py-2 px-4">{{ scan.stocked_by_name }}</td>
                         <td class="py-2 px-4">{{ formatTime(scan.stocked_at) }}</td>
                         <td class="py-2 px-4">
                           <Badge

@@ -16,4 +16,4 @@ const ItemSchema = new mongoose.Schema<IItem>({
   category: { type: String, required: true },
 });
 
-export default mongoose.model<IItem>("Item", ItemSchema);
+export default mongoose.model<IItem>("Items", ItemSchema);
