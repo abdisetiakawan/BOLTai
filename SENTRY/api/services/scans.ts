@@ -102,3 +102,38 @@ export async function updateScanService(scanId: string, id_user: string): Promis
     }
 }
 
+export async function getScanHistory(page: number, limit: number): Promise<{ scans: any[], total: number, page: number, limit: number }> {
+    const skip = (page - 1) * limit;
+    
+    const scans = await Scan.find()
+        .populate('id_item', 'item_code name')
+        .populate('stocked_by', 'name')
+        .populate('taken_by', 'name')
+        .sort({ stocked_at: -1 })
+        .skip(skip)
+        .limit(limit);
+    
+    const total = await Scan.countDocuments();
+    
+    const formattedScans = scans.map(scan => ({
+        id: scan._id.toString(),
+        item_code: (scan.id_item as any)?.item_code,
+        item_name: (scan.id_item as any)?.name,
+        stocked_by: scan.stocked_by,
+        stocked_by_name: (scan.stocked_by as any)?.name,
+        taken_by: scan.taken_by,
+        taken_by_name: (scan.taken_by as any)?.name,
+        stocked_at: scan.stocked_at,
+        taken_at: scan.taken_at,
+        isOut: scan.isOut,
+        in_time: scan.in_time,
+        out_time: scan.out_time
+    }));
+    
+    return {
+        scans: formattedScans,
+        total,
+        page,
+        limit
+    };
+}

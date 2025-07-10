@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { createScanService, updateScanService } from '../services/scans';
+import { createScanService, updateScanService, getScanHistory } from '../services/scans';
 import { addScanSchema, scanIdSchema } from '../validator/scans_validator';
 import { sendSuccess } from '../utils/send_response';
 import { validate } from '../utils/validate';
@@ -16,6 +16,17 @@ export const createScan = async (req: AuthenticatedRequest, res: Response, next:
     }
 };
 
+export const getScans = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<Response | void> => {
+    try {
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+        const result = await getScanHistory(page, limit);
+        return sendSuccess(res, 200, "Scans fetched successfully", result);
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const updateScan = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<Response | void> => {
     try {
         const { scan_id } = validate(scanIdSchema, req.params);
@@ -25,4 +36,3 @@ export const updateScan = async (req: AuthenticatedRequest, res: Response, next:
     } catch (error) {
         next(error);
     }
-};
