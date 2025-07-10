@@ -36,3 +36,4 @@ export const updateScan = async (req: AuthenticatedRequest, res: Response, next:
     } catch (error) {
         next(error);
     }
+}
